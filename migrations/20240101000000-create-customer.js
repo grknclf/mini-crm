@@ -1,9 +1,4 @@
 'use strict';
-
-/**
- * Not: Model ile birebir uyumlu değil (isActive alanı yok).
- */
-
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('customers', {
@@ -32,12 +27,22 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true
       },
+
+      // FIX: model ile uyum
+      is_active: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: true
+      },
+
       created_at: {
         type: Sequelize.DATE,
+        allowNull: false,
         defaultValue: Sequelize.NOW
       },
       updated_at: {
         type: Sequelize.DATE,
+        allowNull: false,
         defaultValue: Sequelize.NOW
       }
     });
