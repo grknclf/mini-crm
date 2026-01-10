@@ -30,9 +30,16 @@ db.sequelize = sequelize;
 
 db.Customer = require('./customer')(sequelize, Sequelize.DataTypes);
 db.Order = require('./order')(sequelize, Sequelize.DataTypes);
+db.Product = require('./product')(sequelize, Sequelize.DataTypes);
+db.OrderItem = require('./orderItem')(sequelize, Sequelize.DataTypes);
 
-// İlişkiler
 db.Customer.hasMany(db.Order, { foreignKey: 'customerId' });
 db.Order.belongsTo(db.Customer, { foreignKey: 'customerId' });
+
+db.Order.hasMany(db.OrderItem, { foreignKey: 'orderId' });
+db.OrderItem.belongsTo(db.Order, { foreignKey: 'orderId' });
+
+db.Product.hasMany(db.OrderItem, { foreignKey: 'productId' });
+db.OrderItem.belongsTo(db.Product, { foreignKey: 'productId' });
 
 module.exports = db;

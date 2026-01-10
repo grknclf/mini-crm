@@ -4,7 +4,6 @@ const request = require('supertest');
 const app = require('../src/app');
 const { sequelize } = require('../src/models');
 
-// Test DB’sini sıfırdan kurar.
 beforeAll(async () => {
   await sequelize.authenticate();
   await sequelize.sync({ force: true });
@@ -119,5 +118,98 @@ describe('Orders API', () => {
     const oRes = await request(app).post('/api/orders').send({ totalAmount: 10, customer: {} });
 
     expect(oRes.statusCode).toBe(400);
+  });
+
+  test('POST /api/orders with items decrements stock for trackStock=true products', async () => {
+    const cRes = await request(app)
+      .post('/api/customers')
+      .send({ firstName: 'StockUser', email: 'stock.user@test.com' });
+
+    const customerId = cRes.body.id;
+
+    const p1 = await request(app).post('/api/products').send({
+      name: 'Stoklu Ürün',
+      sku: 'SKU-STOK-1',
+      price: 10,
+      trackStock: true,
+      stockQuantity: 5,
+    });
+    expect(p1.statusCode).toBe(201);
+
+    const p2 = await request(app).post('/api/products').send({
+      name: 'Stoksuz Ürün',
+      sku: 'SKU-NOSTOCK-1',
+      price: 7.5,
+      trackStock: false,
+    });
+    expect(p2.statusCode).toBe(201);
+
+    const oRes = await request(app)
+      .post('/api/orders')
+      .send({
+        customerId,
+        items: [
+          { productId: p1.body.id, quantity: 2 },
+          { productId: p2.body.id, quantity: 3 },
+        ],
+      });
+
+    expect(oRes.statusCode).toBe(201);
+    expect(oRes.body.totalAmount).toBe('42.50');
+
+    const p1After = await request(app).get(`/api/products/${p1.body.id}`);
+    expect(p1After.statusCode).toBe(200);
+    expect(p1After.body.stockQuantity).toBe(3);
+
+    const p2After = await request(app).get(`/api/products/${p2.body.id}`);
+    expect(p2After.statusCode).toBe(200);
+    expect(p2After.body.stockQuantity).toBeNull();
+  });
+
+  test('POST /api/orders with items returns 400 when stock is insufficient', async () => {
+    const cRes = await request(app)
+      .post('/api/customers')
+      .send({ firstName: 'StockFailUser', email: 'stock.fail@test.com' });
+
+    const customerId = cRes.body.id;
+
+    const p = await request(app).post('/api/products').send({
+      name: 'Az Stok Ürün',
+      sku: 'SKU-LOW-1',
+      price: 5,
+      trackStock: true,
+      stockQuantity: 1,
+    });
+    expect(p.statusCode).toBe(201);
+
+    const oRes = await request(app)
+      .post('/api/orders')
+      .send({
+        customerId,
+        items: [{ productId: p.body.id, quantity: 2 }],
+      });
+
+    expect(oRes.statusCode).toBe(400);
+  });
+});
+
+describe('Products API', () => {
+  test('POST /api/products creates product and prevents duplicate SKU', async () => {
+    const res1 = await request(app).post('/api/products').send({
+      name: 'Ürün 1',
+      sku: 'SKU-DUP-1',
+      price: 1.25,
+      trackStock: true,
+      stockQuantity: 10,
+    });
+    expect(res1.statusCode).toBe(201);
+
+    const res2 = await request(app).post('/api/products').send({
+      name: 'Ürün 2',
+      sku: 'SKU-DUP-1',
+      price: 2,
+      trackStock: false,
+    });
+    expect(res2.statusCode).toBe(409);
   });
 });

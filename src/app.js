@@ -6,6 +6,7 @@ const requestContext = require('./middlewares/requestContext');
 
 const customersRouter = require('./routes/customers');
 const ordersRouter = require('./routes/orders');
+const productsRouter = require('./routes/products');
 
 const app = express();
 
@@ -39,6 +40,7 @@ if (process.env.NODE_ENV !== 'test') {
 
 app.use('/api/customers', customersRouter);
 app.use('/api/orders', ordersRouter);
+app.use('/api/products', productsRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = Number(err?.statusCode) || 500;
