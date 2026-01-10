@@ -1,4 +1,4 @@
-//Bu dosyada Express uygulamasını kurdum. Middleware, route ve merkezi hata yakalama kısını toparladım.
+// Bu dosyada Express uygulamasını kurdum. Middleware, route ve merkezi hata yaklama kısını toparladım.
 
 const express = require('express');
 const logger = require('./lib/logger');
@@ -8,12 +8,14 @@ const customersRouter = require('./routes/customers');
 const ordersRouter = require('./routes/orders');
 const productsRouter = require('./routes/products');
 
+const swaggerUi = require('swagger-ui-express');
+const openapiSpec = require('./docs/openapi.json');
+
 const app = express();
 
 app.use(express.json());
 app.use(requestContext);
 
-// test ortamında logları kapattım
 if (process.env.NODE_ENV !== 'test') {
   app.use((req, res, next) => {
     const start = Date.now();
@@ -41,6 +43,8 @@ if (process.env.NODE_ENV !== 'test') {
 app.use('/api/customers', customersRouter);
 app.use('/api/orders', ordersRouter);
 app.use('/api/products', productsRouter);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpec));
 
 app.use((err, req, res, next) => {
   const statusCode = Number(err?.statusCode) || 500;
