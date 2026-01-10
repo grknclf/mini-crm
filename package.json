@@ -7,7 +7,8 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "test": "cross-env NODE_ENV=test jest --runInBand",
-    "migrate": "sequelize db:migrate"
+    "migrate": "sequelize db:migrate",
+    "test:coverage": "cross-env NODE_ENV=test jest --runInBand --coverage"
   },
   "dependencies": {
     "dotenv": "^16.4.0",
@@ -25,4 +26,5 @@
     "sequelize-cli": "^6.6.5",
     "supertest": "^6.3.4"
   }
+  
 }
