@@ -5,13 +5,11 @@ require('dotenv').config();
 
 const common = {
   dialect: 'postgres',
-  logging: false
+  logging: false,
 };
 
 const sslOptions =
-  process.env.DB_SSL === 'true'
-    ? { ssl: { require: true, rejectUnauthorized: false } }
-    : {};
+  process.env.DB_SSL === 'true' ? { ssl: { require: true, rejectUnauthorized: false } } : {};
 
 const fromParts = (fallbackDbName) => ({
   ...common,
@@ -20,7 +18,7 @@ const fromParts = (fallbackDbName) => ({
   database: process.env.DB_NAME || fallbackDbName,
   username: process.env.DB_USER || 'postgres',
   password: process.env.DB_PASS || null,
-  dialectOptions: sslOptions
+  dialectOptions: sslOptions,
 });
 
 module.exports = {
@@ -28,7 +26,7 @@ module.exports = {
     ? {
         ...common,
         use_env_variable: 'DATABASE_URL',
-        dialectOptions: sslOptions
+        dialectOptions: sslOptions,
       }
     : fromParts('mini_crm_dev'),
 
@@ -36,13 +34,13 @@ module.exports = {
     ? {
         ...common,
         use_env_variable: 'DATABASE_URL',
-        dialectOptions: sslOptions
+        dialectOptions: sslOptions,
       }
     : fromParts('mini_crm_test'),
 
   production: {
     ...common,
     use_env_variable: 'DATABASE_URL',
-    dialectOptions: { ssl: { require: true, rejectUnauthorized: false } }
-  }
+    dialectOptions: { ssl: { require: true, rejectUnauthorized: false } },
+  },
 };

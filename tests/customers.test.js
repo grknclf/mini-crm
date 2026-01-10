@@ -23,9 +23,7 @@ describe('Customers API', () => {
   });
 
   test('POST /api/customers returns 400 when email and phone missing', async () => {
-    const res = await request(app)
-      .post('/api/customers')
-      .send({ firstName: 'Test' });
+    const res = await request(app).post('/api/customers').send({ firstName: 'Test' });
 
     expect(res.statusCode).toBe(400);
   });
@@ -42,9 +40,7 @@ describe('Customers API', () => {
   });
 
   test('POST /api/customers prevents duplicate by email', async () => {
-    await request(app)
-      .post('/api/customers')
-      .send({ firstName: 'A', email: 'dup@test.com' });
+    await request(app).post('/api/customers').send({ firstName: 'A', email: 'dup@test.com' });
 
     const res = await request(app)
       .post('/api/customers')
@@ -54,12 +50,10 @@ describe('Customers API', () => {
   });
 
   test('POST /api/customers normalizes phone number', async () => {
-    const res = await request(app)
-      .post('/api/customers')
-      .send({
-        firstName: 'Phone',
-        phone: '0532 111 22 33'
-      });
+    const res = await request(app).post('/api/customers').send({
+      firstName: 'Phone',
+      phone: '0532 111 22 33',
+    });
 
     expect(res.statusCode).toBe(201);
     expect(res.body.phone).toBe('+905321112233');
@@ -76,7 +70,7 @@ describe('Customers API', () => {
     expect(delRes.statusCode).toBe(200);
 
     const listRes = await request(app).get('/api/customers');
-    const ids = listRes.body.map(x => x.id);
+    const ids = listRes.body.map((x) => x.id);
 
     expect(ids).not.toContain(id);
   });
@@ -112,7 +106,7 @@ describe('Orders API', () => {
       .post('/api/orders')
       .send({
         totalAmount: 50,
-        customer: { firstName: 'GuestUser', email: 'guest.user@test.com' }
+        customer: { firstName: 'GuestUser', email: 'guest.user@test.com' },
       });
 
     expect(oRes.statusCode).toBe(201);
@@ -122,9 +116,7 @@ describe('Orders API', () => {
   });
 
   test('POST /api/orders returns 400 when no customerId and customer.firstName missing', async () => {
-    const oRes = await request(app)
-      .post('/api/orders')
-      .send({ totalAmount: 10, customer: {} });
+    const oRes = await request(app).post('/api/orders').send({ totalAmount: 10, customer: {} });
 
     expect(oRes.statusCode).toBe(400);
   });

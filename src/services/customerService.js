@@ -20,13 +20,13 @@ async function listCustomers({ limit = 50, offset = 0 } = {}) {
     where: { isActive: true },
     limit: safeLimit,
     offset: safeOffset,
-    order: [['id', 'DESC']]
+    order: [['id', 'DESC']],
   });
 }
 
 async function getCustomerById(id) {
   const customer = await Customer.findOne({
-    where: { id, isActive: true }
+    where: { id, isActive: true },
   });
 
   if (!customer) {
@@ -66,21 +66,18 @@ async function createCustomer(payload) {
     const existing = await Customer.findOne({
       where: {
         isActive: true,
-        [Op.or]: whereOr
-      }
+        [Op.or]: whereOr,
+      },
     });
 
     if (existing) {
-      throw httpError(
-        409,
-        'Duplicate müşteri: aynı email veya telefon zaten kayıtlı'
-      );
+      throw httpError(409, 'Duplicate müşteri: aynı email veya telefon zaten kayıtlı');
     }
   }
 
   logger.info('customer.create', {
     email_present: Boolean(email),
-    phone_present: Boolean(phone)
+    phone_present: Boolean(phone),
   });
 
   const customer = await Customer.create({
@@ -89,7 +86,7 @@ async function createCustomer(payload) {
     phone,
     email,
     address: payload.address ?? null,
-    note: payload.note ?? null
+    note: payload.note ?? null,
   });
 
   return customer;
@@ -131,10 +128,8 @@ async function updateCustomer(id, payload) {
   }
 
   // email veya telefon şartı korunur
-  const finalEmail =
-    next.email !== undefined ? next.email : customer.email;
-  const finalPhone =
-    next.phone !== undefined ? next.phone : customer.phone;
+  const finalEmail = next.email !== undefined ? next.email : customer.email;
+  const finalPhone = next.phone !== undefined ? next.phone : customer.phone;
 
   if (!finalEmail && !finalPhone) {
     throw httpError(400, 'Mail veya telefon alanlarından en az biri zorunludur');
@@ -148,15 +143,12 @@ async function updateCustomer(id, payload) {
       where: {
         isActive: true,
         id: { [Op.ne]: customer.id },
-        [Op.or]: whereOr
-      }
+        [Op.or]: whereOr,
+      },
     });
 
     if (dup) {
-      throw httpError(
-        409,
-        'Duplicate müşteri: aynı email veya telefon zaten kayıtlı'
-      );
+      throw httpError(409, 'Duplicate müşteri: aynı email veya telefon zaten kayıtlı');
     }
   }
 
@@ -180,5 +172,5 @@ module.exports = {
   getCustomerById,
   createCustomer,
   updateCustomer,
-  deleteCustomer
+  deleteCustomer,
 };

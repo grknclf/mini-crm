@@ -22,7 +22,7 @@ function normalizeHeader(h) {
 
 function pick(row, key) {
   const normKey = normalizeHeader(key);
-  const found = Object.keys(row).find(k => normalizeHeader(k) === normKey);
+  const found = Object.keys(row).find((k) => normalizeHeader(k) === normKey);
   return found ? row[found] : undefined;
 }
 
@@ -83,7 +83,7 @@ async function main() {
     skippedDuplicate: 0,
     skippedInvalid: 0,
     errors: 0,
-    details: []
+    details: [],
   };
 
   for (let i = 0; i < rows.length; i++) {
@@ -94,10 +94,7 @@ async function main() {
     const phone = toStringOrNull(pick(r, 'Telefon'));
     const email = toStringOrNull(pick(r, 'Mail'));
 
-    const { address, note } = splitAddressAndNote(
-      pick(r, 'Adres'),
-      pick(r, 'Not')
-    );
+    const { address, note } = splitAddressAndNote(pick(r, 'Adres'), pick(r, 'Not'));
 
     if (!firstName || (!email && !phone)) {
       report.skippedInvalid++;
@@ -106,7 +103,7 @@ async function main() {
         status: 'SKIPPED_INVALID',
         reason: !firstName
           ? 'Ad (firstName) boş'
-          : 'Mail veya telefon alanlarından en az biri zorunlu'
+          : 'Mail veya telefon alanlarından en az biri zorunlu',
       });
       continue;
     }
@@ -118,7 +115,7 @@ async function main() {
         phone,
         email,
         address,
-        note
+        note,
       });
 
       report.inserted++;
@@ -131,7 +128,7 @@ async function main() {
         report.details.push({
           row: i + 2,
           status: 'SKIPPED_DUPLICATE',
-          reason: err.message
+          reason: err.message,
         });
         continue;
       }
@@ -141,7 +138,7 @@ async function main() {
         row: i + 2,
         status: 'ERROR',
         statusCode,
-        message: err.message
+        message: err.message,
       });
     }
   }
@@ -165,6 +162,8 @@ async function main() {
 
 main().catch(async (e) => {
   console.error('ETL fatal hata:', e);
-  try { await sequelize.close(); } catch (_) {}
+  try {
+    await sequelize.close();
+  } catch (_) {}
   process.exit(1);
 });

@@ -6,7 +6,7 @@ const logger = require('../lib/logger');
 async function listOrders() {
   return Order.findAll({
     limit: 50,
-    order: [['id', 'DESC']]
+    order: [['id', 'DESC']],
   });
 }
 
@@ -27,25 +27,25 @@ async function createOrder(payload) {
       lastName: customer.lastName ?? null,
       phone: customer.phone ?? null,
       email: customer.email ?? null,
-      address: customer.address ?? null
+      address: customer.address ?? null,
     });
 
     finalCustomerId = createdCustomer.id;
 
     logger.info('order.guest_customer_created', {
-      customer_id: finalCustomerId
+      customer_id: finalCustomerId,
     });
   }
 
   const order = await Order.create({
     customerId: finalCustomerId,
     totalAmount: totalAmount ?? null,
-    status: status ?? 'pending'
+    status: status ?? 'pending',
   });
 
   logger.info('order.created', {
     order_id: order.id,
-    customer_id: finalCustomerId
+    customer_id: finalCustomerId,
   });
 
   return order;
@@ -53,5 +53,5 @@ async function createOrder(payload) {
 
 module.exports = {
   listOrders,
-  createOrder
+  createOrder,
 };

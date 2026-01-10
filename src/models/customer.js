@@ -7,49 +7,49 @@ module.exports = (sequelize, DataTypes) => {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
 
       firstName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
 
       lastName: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
       },
 
       phone: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
       },
 
       email: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
       },
 
       address: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
 
       note: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: true,
       },
 
       isActive: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: true
-      }
+        defaultValue: true,
+      },
     },
     {
       tableName: 'customers',
       underscored: true,
-      timestamps: true
+      timestamps: true,
     }
   );
 

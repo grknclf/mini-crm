@@ -8,9 +8,7 @@ const fs = require('fs');
 let sequelize = null;
 try {
   ({ sequelize } = require('../models'));
-} catch (_) {
-  
-}
+} catch (_) {}
 
 const logDir = path.resolve(process.cwd(), 'logs');
 fs.mkdirSync(logDir, { recursive: true });
@@ -47,8 +45,8 @@ class DbErrorTransport extends Transport {
               level,
               message,
               trace_id: traceId,
-              meta: JSON.stringify(meta)
-            }
+              meta: JSON.stringify(meta),
+            },
           }
         )
         .then(() => callback())
@@ -63,7 +61,7 @@ const logger = winston.createLogger({
   level: process.env.LOG_LEVEL || 'info',
   defaultMeta: {
     service: process.env.SERVICE_NAME || 'mini-crm',
-    env: process.env.NODE_ENV || 'development'
+    env: process.env.NODE_ENV || 'development',
   },
   format: winston.format.combine(
     winston.format.timestamp(),
@@ -75,22 +73,22 @@ const logger = winston.createLogger({
     new winston.transports.File({
       filename: path.join(logDir, 'app.log'),
       maxsize: 5 * 1024 * 1024,
-      maxFiles: 5
+      maxFiles: 5,
     }),
     new winston.transports.File({
       filename: path.join(logDir, 'error.log'),
       level: 'warn',
       maxsize: 5 * 1024 * 1024,
-      maxFiles: 5
+      maxFiles: 5,
     }),
-    new DbErrorTransport({ sequelize })
+    new DbErrorTransport({ sequelize }),
   ],
   exceptionHandlers: [
-    new winston.transports.File({ filename: path.join(logDir, 'exceptions.log') })
+    new winston.transports.File({ filename: path.join(logDir, 'exceptions.log') }),
   ],
   rejectionHandlers: [
-    new winston.transports.File({ filename: path.join(logDir, 'rejections.log') })
-  ]
+    new winston.transports.File({ filename: path.join(logDir, 'rejections.log') }),
+  ],
 });
 
 module.exports = logger;

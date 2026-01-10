@@ -13,20 +13,15 @@ const sequelize = config.db.url
   ? new Sequelize(config.db.url, {
       dialect: config.db.dialect,
       logging: sequelizeLogging,
-      ...config.db.options
+      ...config.db.options,
     })
-  : new Sequelize(
-      config.db.parts.database,
-      config.db.parts.username,
-      config.db.parts.password,
-      {
-        host: config.db.parts.host,
-        port: config.db.parts.port,
-        dialect: config.db.dialect,
-        logging: sequelizeLogging,
-        ...config.db.options
-      }
-    );
+  : new Sequelize(config.db.parts.database, config.db.parts.username, config.db.parts.password, {
+      host: config.db.parts.host,
+      port: config.db.parts.port,
+      dialect: config.db.dialect,
+      logging: sequelizeLogging,
+      ...config.db.options,
+    });
 
 const db = {};
 

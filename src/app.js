@@ -1,4 +1,3 @@
-
 //Bu dosyada Express uygulamasını kurdum. Middleware, route ve merkezi hata yakalama kısını toparladım.
 
 const express = require('express');
@@ -21,7 +20,7 @@ if (process.env.NODE_ENV !== 'test') {
     logger.info('request.start', {
       trace_id: req.traceId,
       method: req.method,
-      path: req.originalUrl
+      path: req.originalUrl,
     });
 
     res.on('finish', () => {
@@ -30,7 +29,7 @@ if (process.env.NODE_ENV !== 'test') {
         method: req.method,
         path: req.originalUrl,
         status: res.statusCode,
-        duration_ms: Date.now() - start
+        duration_ms: Date.now() - start,
       });
     });
 
@@ -48,13 +47,13 @@ app.use((err, req, res, next) => {
     trace_id: req.traceId,
     status: statusCode,
     message: err?.message,
-    details: err?.details
+    details: err?.details,
   });
 
   res.status(statusCode).json({
     message: err?.message || 'Bir hata oluştu',
     traceId: req.traceId,
-    details: err?.details
+    details: err?.details,
   });
 });
 

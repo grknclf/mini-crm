@@ -1,7 +1,4 @@
-const {
-  normalizePhone,
-  normalizeEmail
-} = require('../../src/helpers/customerNormalizer');
+const { normalizePhone, normalizeEmail } = require('../../src/helpers/customerNormalizer');
 
 describe('customerNormalizer', () => {
   describe('normalizePhone', () => {
@@ -32,9 +29,7 @@ describe('customerNormalizer', () => {
     });
 
     test('lowercase + trim', () => {
-      expect(
-        normalizeEmail('  AHMET.YILMAZ@MAIL.COM ')
-      ).toBe('ahmet.yilmaz@mail.com');
+      expect(normalizeEmail('  AHMET.YILMAZ@MAIL.COM ')).toBe('ahmet.yilmaz@mail.com');
     });
 
     test('invalid emails', () => {

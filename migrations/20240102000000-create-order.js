@@ -6,7 +6,7 @@ module.exports = {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
 
       customer_id: {
@@ -14,46 +14,45 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'customers',
-          key: 'id'
+          key: 'id',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'RESTRICT'
+        onDelete: 'RESTRICT',
       },
 
       status: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 'pending'
+        defaultValue: 'pending',
       },
 
       total_amount: {
         type: Sequelize.DECIMAL(10, 2),
-        allowNull: true
+        allowNull: true,
       },
 
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: Sequelize.NOW
+        defaultValue: Sequelize.NOW,
       },
       updated_at: {
         type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: Sequelize.NOW
-      }
+        defaultValue: Sequelize.NOW,
+      },
     });
 
     await queryInterface.addIndex('orders', ['customer_id'], {
-      name: 'ix_orders_customer_id'
+      name: 'ix_orders_customer_id',
     });
   },
 
   async down(queryInterface) {
     try {
       await queryInterface.removeIndex('orders', 'ix_orders_customer_id');
-    } catch (e) {
-    }
+    } catch (e) {}
 
     await queryInterface.dropTable('orders');
-  }
+  },
 };
