@@ -1,23 +1,27 @@
+// Sipariş endpoint'lerini tanımlıyorum.
+
 const express = require('express');
 const router = express.Router();
-const { Order } = require('../models');
-const logger = require('../lib/logger');
+const orderService = require('../services/orderService');
 
-// TODO: servis katmanı düşünülmüş ama direkt model kullanılmış
+// GET /api/orders
 router.get('/', async (req, res, next) => {
   try {
-    const orders = await Order.findAll({
-      limit: 20
-      // TODO: filtreleme (status, customer vs.) yok
-    });
+    const orders = await orderService.listOrders();
     res.json(orders);
   } catch (err) {
-    logger.error('Error listing orders', { err });
     next(err);
   }
 });
 
-// TODO: POST /api/orders - sipariş oluşturma
-// Müşteri yokken sipariş oluşturma senaryosu hiç ele alınmamış
+// POST /api/orders
+router.post('/', async (req, res, next) => {
+  try {
+    const order = await orderService.createOrder(req.body);
+    res.status(201).json(order);
+  } catch (err) {
+    next(err);
+  }
+});
 
 module.exports = router;

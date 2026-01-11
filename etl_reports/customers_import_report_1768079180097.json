@@ -1,0 +1,111 @@
+{
+  "file": "C:\\Users\\grknc\\Desktop\\bmök\\Proje2\\mini-crm\\data\\customers.xlsx",
+  "sheet": "Sayfa1",
+  "totalRows": 20,
+  "inserted": 3,
+  "skippedDuplicate": 16,
+  "skippedInvalid": 1,
+  "errors": 0,
+  "details": [
+    {
+      "row": 2,
+      "status": "SKIPPED_DUPLICATE",
+      "reason": "Duplicate müşteri: aynı email veya telefon zaten kayıtlı"
+    },
+    {
+      "row": 3,
+      "status": "SKIPPED_DUPLICATE",
+      "reason": "Duplicate müşteri: aynı email veya telefon zaten kayıtlı"
+    },
+    {
+      "row": 4,
+      "status": "SKIPPED_DUPLICATE",
+      "reason": "Duplicate müşteri: aynı email veya telefon zaten kayıtlı"
+    },
+    {
+      "row": 5,
+      "status": "SKIPPED_DUPLICATE",
+      "reason": "Duplicate müşteri: aynı email veya telefon zaten kayıtlı"
+    },
+    {
+      "row": 6,
+      "status": "SKIPPED_DUPLICATE",
+      "reason": "Duplicate müşteri: aynı email veya telefon zaten kayıtlı"
+    },
+    {
+      "row": 7,
+      "status": "SKIPPED_DUPLICATE",
+      "reason": "Duplicate müşteri: aynı email veya telefon zaten kayıtlı"
+    },
+    {
+      "row": 8,
+      "status": "SKIPPED_DUPLICATE",
+      "reason": "Duplicate müşteri: aynı email veya telefon zaten kayıtlı"
+    },
+    {
+      "row": 9,
+      "status": "SKIPPED_INVALID",
+      "reason": "Ad (firstName) boş"
+    },
+    {
+      "row": 10,
+      "status": "INSERTED",
+      "id": 7
+    },
+    {
+      "row": 11,
+      "status": "INSERTED",
+      "id": 8
+    },
+    {
+      "row": 12,
+      "status": "SKIPPED_DUPLICATE",
+      "reason": "Duplicate müşteri: aynı email veya telefon zaten kayıtlı"
+    },
+    {
+      "row": 13,
+      "status": "SKIPPED_DUPLICATE",
+      "reason": "Duplicate müşteri: aynı email veya telefon zaten kayıtlı"
+    },
+    {
+      "row": 14,
+      "status": "SKIPPED_DUPLICATE",
+      "reason": "Duplicate müşteri: aynı email veya telefon zaten kayıtlı"
+    },
+    {
+      "row": 15,
+      "status": "SKIPPED_DUPLICATE",
+      "reason": "Duplicate müşteri: aynı email veya telefon zaten kayıtlı"
+    },
+    {
+      "row": 16,
+      "status": "INSERTED",
+      "id": 9
+    },
+    {
+      "row": 17,
+      "status": "SKIPPED_DUPLICATE",
+      "reason": "Duplicate müşteri: aynı email veya telefon zaten kayıtlı"
+    },
+    {
+      "row": 18,
+      "status": "SKIPPED_DUPLICATE",
+      "reason": "Duplicate müşteri: aynı email veya telefon zaten kayıtlı"
+    },
+    {
+      "row": 19,
+      "status": "SKIPPED_DUPLICATE",
+      "reason": "Duplicate müşteri: aynı email veya telefon zaten kayıtlı"
+    },
+    {
+      "row": 20,
+      "status": "SKIPPED_DUPLICATE",
+      "reason": "Duplicate müşteri: aynı email veya telefon zaten kayıtlı"
+    },
+    {
+      "row": 21,
+      "status": "SKIPPED_DUPLICATE",
+      "reason": "Duplicate müşteri: aynı email veya telefon zaten kayıtlı"
+    }
+  ]
+}

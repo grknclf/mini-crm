@@ -1,0 +1,147 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Mini CRM API",
+    "version": "1.0.0",
+    "description": "Mini CRM – Customers, Orders, Products ve Stock yönetimi API dokümantasyonu"
+  },
+  "servers": [
+    { "url": "http://localhost:3000" }
+  ],
+  "paths": {
+    "/api/customers": {
+      "get": {
+        "summary": "Müşteri listesini getirir",
+        "responses": {
+          "200": { "description": "OK" }
+        }
+      },
+      "post": {
+        "summary": "Yeni müşteri oluşturur",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CustomerCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Created" },
+          "400": { "description": "Validation error" },
+          "409": { "description": "Duplicate customer" }
+        }
+      }
+    },
+
+    "/api/orders": {
+      "get": {
+        "summary": "Sipariş listesini getirir",
+        "responses": {
+          "200": { "description": "OK" }
+        }
+      },
+      "post": {
+        "summary": "Sipariş oluşturur (eski veya items’lı)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/OrderCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Created" },
+          "400": { "description": "Validation / stock error" }
+        }
+      }
+    },
+
+    "/api/products": {
+      "get": {
+        "summary": "Ürün listesini getirir",
+        "responses": {
+          "200": { "description": "OK" }
+        }
+      },
+      "post": {
+        "summary": "Yeni ürün oluşturur",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ProductCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Created" },
+          "400": { "description": "Validation error" },
+          "409": { "description": "Duplicate SKU" }
+        }
+      }
+    },
+
+    "/api/products/{id}": {
+      "get": {
+        "summary": "Tek bir ürünü getirir",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "404": { "description": "Not found" }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "CustomerCreate": {
+        "type": "object",
+        "properties": {
+          "firstName": { "type": "string" },
+          "lastName": { "type": "string" },
+          "email": { "type": "string" },
+          "phone": { "type": "string" }
+        }
+      },
+
+      "OrderCreate": {
+        "type": "object",
+        "properties": {
+          "customerId": { "type": "integer" },
+          "totalAmount": { "type": "number" },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "productId": { "type": "integer" },
+                "quantity": { "type": "integer" }
+              }
+            }
+          }
+        }
+      },
+
+      "ProductCreate": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "sku": { "type": "string" },
+          "price": { "type": "number" },
+          "trackStock": { "type": "boolean" },
+          "stockQuantity": { "type": "integer" }
+        }
+      }
+    }
+  }
+}

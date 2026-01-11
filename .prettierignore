@@ -1,0 +1,6 @@
+node_modules
+coverage
+etl_reports
+logs
+dist
+build
